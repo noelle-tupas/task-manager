@@ -44,22 +44,73 @@ class TaskManager:
             print ('Successfully edited the task\n')
             print (self.__tasks[task_index].get_task_details())
         
-    def delete_task (self, task):
-        print ('Delete task')
+    # To be implemented
+    def delete_task (self):
+        # Add task as parameter or index of task
+        print ('Delete task - not yet implemented')
         
+    # Prints all the tasks in the Task Managers
     def view_tasks (self):
-        for task in self.__tasks:
-            new_task = task.get_task_details()
-            print('> Task ' + str(self.__tasks.index(task) + 1) + ':')
-            print('>  Task name: ' + new_task["Task Name"] + '')
-            print('>  Description: ' + new_task["Description"] + '')
-            print('>  Due date: ' + new_task["Due Date"] + '')
-            print('>  Priority level: ' + new_task["Priority Level"] + '')
-            print('>  Completion status: ' + new_task["Completion Status"] + '')
-            print ('---------------------------------------')
+        if self.__tasks:
+            for task in self.__tasks:
+                new_task = task.get_task_details()
+                print('> Task ' + str(self.__tasks.index(task) + 1) + ':')
+                print('>  Task name: ' + new_task["Task Name"] + '')
+                print('>  Description: ' + new_task["Description"] + '')
+                print('>  Due date: ' + new_task["Due Date"] + '')
+                print('>  Priority level: ' + new_task["Priority Level"] + '')
+                print('>  Completion status: ' + new_task["Completion Status"] + '')
+                print ('---------------------------------------')
+        else:
+            print ('No tasks available.')
         
+    # To be implemented
     def sort_tasks_by_priority (self):
-        print ('View sorted tasks by priority')
+        print ('View sorted tasks by priority -- not yet implemented')
         
+    # To be implemented
     def get_overdue_tasks (self):
-        print ('Get overdue tasks')
+        print ('Get overdue tasks -- not yet implemented')
+        
+    # Prints the menu
+    def print_menu (self):
+        print ('--------- MENU ---------')
+        print ('[1] Add Task')
+        print ('[2] Edit Task')
+        print ('[3] Delete Task [Not yet available]')
+        print ('[4] View Tasks')
+        print ('[5] Sort Tasks by Priority [Not yet available]')
+        print ('[6] Get Overdue Tasks [Not yet available]')
+        print ('-------------------------')
+
+# tm = TaskManager()
+# tm.add_task()
+# tm.view_tasks()
+# tm.edit_task()
+
+tm = TaskManager()
+
+while True:
+    tm.print_menu()
+    choice = input ("Enter number: ")
+    
+    if choice == "1":
+        print ('[Add Task]')
+        tm.add_task()
+    elif choice == "2":
+        print ('[Edit Task]')
+        tm.edit_task()
+    elif choice == "3":
+        print ('[Delete Task]')
+        tm.delete_task()
+    elif choice == "4":
+        print ('[View Task]')
+        tm.view_tasks()
+    elif choice == "5":
+        print ('[Sort Tasks by Priority]')
+        tm.sort_tasks_by_priority()
+    elif choice == "6":
+        print ('[Get Overdue Tasks]')
+        tm.get_overdue_tasks()
+    else:
+        print ('Invalid input. Please choose [number] from the menu.')
