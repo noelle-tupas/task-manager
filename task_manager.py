@@ -44,10 +44,16 @@ class TaskManager:
             print ('Successfully edited the task\n')
             print (self.__tasks[task_index].get_task_details())
         
-    # To be implemented
+    # Allows users to delete a task
     def delete_task (self):
-        # Add task as parameter or index of task
-        print ('Delete task - not yet implemented')
+        task_index = int(input('Enter the number of the you wish to delete: ')) - 1
+        # Checks if chosen task is within the list of tasks
+        if 0 <= task_index < len(self.__tasks):
+            # Removes the task
+            self.__tasks.pop(task_index)
+            print('Successfully deleted Task.')
+        else:
+            print('Invalid task number. Please input a valid task number.')
         
     # Prints all the tasks in the Task Managers
     def view_tasks (self):
@@ -77,7 +83,7 @@ class TaskManager:
         print ('--------- MENU ---------')
         print ('[1] Add Task')
         print ('[2] Edit Task')
-        print ('[3] Delete Task [Not yet available]')
+        print ('[3] Delete Task')
         print ('[4] View Tasks')
         print ('[5] Sort Tasks by Priority [Not yet available]')
         print ('[6] Get Overdue Tasks [Not yet available]')
