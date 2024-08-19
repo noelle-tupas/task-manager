@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 
 class TaskReminder:
     def __init__(self, due_date):
@@ -6,6 +6,7 @@ class TaskReminder:
         self.__due_date = datetime.strptime(due_date, "%m-%d-%Y %H:%M")
         self.__reminder_sent = False
         self.__overdue_reminder = False
+        self.__upcoming_task_reminder = False
 
     def check_due_date(self):
         #Check due date#
@@ -17,12 +18,20 @@ class TaskReminder:
         
     def prompt_overdue_date(self):
         #When the task is overdue
-        now = current_time.strftime("%d")
-        due = self.__due_date.strftime("%d")
-        overdue = due - now
-        if overdue == 1:
+        now = datetime.now()
+        overdue = now - self.__due_date
+        int_overdue = overdue.days
+        if int_overdue == 1:
             self.send_overdue_reminder()
             self.__overdue_reminder = True
+
+    def prompt_upcoming_tasks(self):
+        now = datetime.now()
+        upcoming = self.__due_date - now
+        int_upcoming = upcoming.days
+        if int_upcoming == 1:
+            self.send_upcoming_tasks()
+            self.__upcoming_task_reminder = True
     
     def send_reminder(self):
         #Reminder message#
@@ -37,6 +46,16 @@ class TaskReminder:
         print("-------------------------")
         print(" ")
         print("Reminder: You have an overdue task! Please check your task manager.")
+        print(" ")
+        print("-------------------------")
+
+    def send_upcoming_tasks(self):
+        #Sends upcoming tasks
+        print("-------------------------")
+        print(" ")
+        print("Reminder: Upcoming Task(s)")
+        print("")
+        print("Wala pa :P")
         print(" ")
         print("-------------------------")
         
