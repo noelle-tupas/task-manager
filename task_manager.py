@@ -124,10 +124,44 @@ class TaskManager:
         else:
             print ('No available tasks.')
         
+    def get_priority_mapping (self, task):
+        '''
+            Maps a priority level to a specific value to be used for sorting
+            Low is 0, Medium is 1, High is 2
+        '''
+        task_priority_level = task.get_priority().lower()
+        
+        if task_priority_level == 'low':
+            return 0
+        elif task_priority_level == 'medium':
+            return 1
+        else:
+            return 2
+        
     def sort_tasks_by_priority (self):
         '''
-            To be implemented
+            Allows the user to sort the task list by priority and prints the sorted
+            list. This does not override the original task list
         '''
+        to_be_sorted = self.__tasks
+        
+        '''
+            Used lambda to use extract an element of to_be_sorted and use it for get_priority_mapping
+            to be used a sort key since get_priority_mapping requires access to attributes of task
+        '''
+        to_be_sorted.sort(key=lambda task: self.get_priority_mapping(task))
+        
+        print ('\n[***** SORTED TASKS *****]')
+        for task in to_be_sorted:
+            task_details = task.get_task_details()
+            print('>  Task ' + str(self.__tasks.index(task) + 1) + ':')
+            print('>  Task name: ' + task_details["Task Name"] + '')
+            print('>  Description: ' + task_details["Description"] + '')
+            print('>  Due date: ' + task_details["Due Date"] + '')
+            print('>  Priority level: ' + task_details["Priority Level"] + '')
+            print('>  Completion status: ' + task_details["Completion Status"] + '')
+            print ('---------------------------------------')
+            
         
     # To be implemented
     def get_overdue_tasks (self):
