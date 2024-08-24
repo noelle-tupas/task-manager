@@ -1,10 +1,10 @@
 from task import Task
-from task_reminder import TaskReminder
+from reminder import Reminder
 
-class TaskWithReminder(Task, TaskReminder):
+class TaskWithReminder(Task, Reminder):
     def __init__(self, task_name, description, due_date, priority_level, completion_status):
         Task.__init__(self, task_name, description, due_date.split()[0], priority_level, completion_status)
-        TaskReminder.__init__(self, due_date)
+        Reminder.__init__(self, due_date)
 
     def update_and_check_reminder(self):
         '''
