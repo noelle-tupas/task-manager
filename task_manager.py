@@ -154,7 +154,6 @@ class TaskManager:
         print ('\n[***** SORTED TASKS *****]')
         for task in to_be_sorted:
             task_details = task.get_task_details()
-            print('>  Task ' + str(self.__tasks.index(task) + 1) + ':')
             print('>  Task name: ' + task_details["Task Name"] + '')
             print('>  Description: ' + task_details["Description"] + '')
             print('>  Due date: ' + task_details["Due Date"] + '')
