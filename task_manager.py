@@ -4,19 +4,25 @@ from task import Task
 
 class TaskManager:
     def __init__ (self):
-        # Initialize empty list of tasks
-        self.__tasks = [] 
+        '''
+            Initializes the TaskManager instance
+            
+            - The format for due date is MM-DD-YYYYss
+            - Priority level can only be high, medium, low
+        '''
+        self.__tasks = []
+        self.__completed_tasks = []
         
-    # Allows users to add a task to task manager
     def add_task (self):
-        # Ask user for task details:
+        '''
+            Allows the user to add a task to the Task Manager
+        '''
         task_name = input ('Task name: ')
         description = input ('Description: ')
         due_date = input ('Due date (MM-DD-YYYY): ')
         priority_level = input ('Priority level (low, medium, high): ')
         completion_status = input ('Completion level? (%): ')
         
-        # Instantiate a new task
         new_task = Task (
             task_name,
             description,
@@ -25,54 +31,103 @@ class TaskManager:
             completion_status
         )
         
-        # Add task to task list
         self.__tasks.append(new_task)
         
-    # Allows users to edit a task based on the index of the task
     def edit_task (self):
-        task_index = int(input ('Task number: ')) - 1
-        if self.__tasks[task_index]:
-            # Allow user to change description, priority level and completion status
-            description = input ("New description: ")
-            priority_level = input("New priority level (low, medium, high): ")
-            completion_status = input("New completion status (%): ")
-            
-            self.__tasks[task_index].set_description(description)
-            self.__tasks[task_index].set_priority(priority_level)
-            self.__tasks[task_index].set_completion_status(completion_status)
-            
-            print ('Successfully edited the task\n')
-            print (self.__tasks[task_index].get_task_details())
+        '''
+            Allows the user to edit an existing task
+        '''
+        index = int(input ('Enter the number of the task you wish to edit: ')) - 1
         
-    # Allows users to delete a task
+        if not index >= 0 and index < len(self.__tasks):
+            '''
+                Checks if the index is valid. If not, it will
+                end the execution of the method, else it will
+                continue with the rest of the method
+            '''
+            print ('Task does not exist. Try again.')
+            return
+        
+        task = self.__tasks[index]
+        
+        description = input ("New description: ")
+        priority_level = input("New priority level (low, medium, high): ")
+        completion_status = input("New completion status (%): ")
+        
+        task.set_description(description)
+        task.set_priority(priority_level)
+        task.set_completion_status(completion_status)
+        
+        print ('** Task was edited successfully. **')
+        
+        '''
+            Check if the task is already completed (100%). If yes, move it to
+            the completed tasks list
+        '''
+        if task.get_completion_status() == '100%':
+            self.__tasks.remove(task)
+            self.__completed_tasks.append(task)
+            
     def delete_task (self):
-        task_index = int(input('Enter the number of the you wish to delete: ')) - 1
-        # Checks if chosen task is within the list of tasks
-        if 0 <= task_index < len(self.__tasks):
-            # Removes the task
-            self.__tasks.pop(task_index)
-            print('Successfully deleted Task.')
-        else:
-            print('Invalid task number. Please input a valid task number.')
+        '''
+            Allows the user to delete a task given a valid index
+        '''
+        index = int(input('Enter the number of the task you wish to delete: ')) - 1
         
-    # Prints all the tasks in the Task Managers
+        if not index >= 0 and index < len(self.__tasks):
+            '''
+                Checks if the index is valid. If not, it will
+                end the execution of the method, else it will
+                continue with the rest of the method
+            '''
+            print ('Task does not exist. Try again.')
+            return
+            
+        task = self.__tasks[index]
+        
+        choice = input ('Are you sure you want to delete this task? Y/n:')
+        
+        if choice.lower() == 'y':
+            self.__tasks.remove(task)
+            print ('Task successfully deleted')
+        else:
+            print ('Operation aborted.')
+            return
+        
     def view_tasks (self):
-        if self.__tasks:
+        '''
+            Allows the user to view all tasks
+        '''
+        if self.__tasks or self.__completed_tasks:
+            print ('\n[***** ONGOING TASKS *****]')
             for task in self.__tasks:
-                new_task = task.get_task_details()
-                print('> Task ' + str(self.__tasks.index(task) + 1) + ':')
-                print('>  Task name: ' + new_task["Task Name"] + '')
-                print('>  Description: ' + new_task["Description"] + '')
-                print('>  Due date: ' + new_task["Due Date"] + '')
-                print('>  Priority level: ' + new_task["Priority Level"] + '')
-                print('>  Completion status: ' + new_task["Completion Status"] + '')
+                task_details = task.get_task_details()
+                print('>  Task ' + str(self.__tasks.index(task) + 1) + ':')
+                print('>  Task name: ' + task_details["Task Name"] + '')
+                print('>  Description: ' + task_details["Description"] + '')
+                print('>  Due date: ' + task_details["Due Date"] + '')
+                print('>  Priority level: ' + task_details["Priority Level"] + '')
+                print('>  Completion status: ' + task_details["Completion Status"] + '')
                 print ('---------------------------------------')
-        else:
-            print ('No tasks available.')
+                
+            print ('\n[***** COMPLETED TASKS *****]')
+            for task in self.__completed_tasks:
+                task_details = task.get_task_details()
+                print('>  Task ' + str(self.__tasks.index(task) + 1) + ':')
+                print('>  Task name: ' + task_details["Task Name"] + '')
+                print('>  Description: ' + task_details["Description"] + '')
+                print('>  Due date: ' + task_details["Due Date"] + '')
+                print('>  Priority level: ' + task_details["Priority Level"] + '')
+                print('>  Completion status: ' + task_details["Completion Status"] + '')
+                print ('---------------------------------------')
         
-    # To be implemented
+        else:
+            print ('No available tasks.')
+        
     def sort_tasks_by_priority (self):
-        print ('View sorted tasks by priority -- not yet implemented')
+        '''
+            To be implemented
+        '''
         
     # To be implemented
     def get_overdue_tasks (self):
@@ -80,19 +135,14 @@ class TaskManager:
         
     # Prints the menu
     def print_menu (self):
-        print ('--------- MENU ---------')
+        print ('---------------------------------------')
         print ('[1] Add Task')
         print ('[2] Edit Task')
         print ('[3] Delete Task')
         print ('[4] View Tasks')
         print ('[5] Sort Tasks by Priority [Not yet available]')
         print ('[6] Get Overdue Tasks [Not yet available]')
-        print ('-------------------------')
-
-# tm = TaskManager()
-# tm.add_task()
-# tm.view_tasks()
-# tm.edit_task()
+        print ('---------------------------------------')
 
 tm = TaskManager()
 
@@ -101,22 +151,23 @@ while True:
     choice = input ("Enter number: ")
     
     if choice == "1":
-        print ('[Add Task]')
+        print ('[***** ADD TASK ******************]\n')
         tm.add_task()
     elif choice == "2":
-        print ('[Edit Task]')
+        print ('[***** EDIT TASK *****************]\n')
         tm.edit_task()
     elif choice == "3":
-        print ('[Delete Task]')
+        print ('[***** DELETE TASK ***************]\n')
         tm.delete_task()
     elif choice == "4":
-        print ('[View Task]')
+        print ('[***** VIEW TASK *****************]\n')
         tm.view_tasks()
     elif choice == "5":
-        print ('[Sort Tasks by Priority]')
+        print ('[***** SORT TASK BY PRIORITY *****]\n')
         tm.sort_tasks_by_priority()
     elif choice == "6":
-        print ('[Get Overdue Tasks]')
+        print ('[***** GET OVERDUE TASK **********]\n')
         tm.get_overdue_tasks()
     else:
         print ('Invalid input. Please choose [number] from the menu.')
+        
