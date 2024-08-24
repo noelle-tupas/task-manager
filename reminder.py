@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta
 
-class TaskReminder:
+class Reminder:
     def __init__(self, due_date):
         # mm-dd-yyyy HH:MM (24-hour format)
         self.__due_date = datetime.strptime(due_date, "%m-%d-%Y %H:%M")
