@@ -173,7 +173,7 @@ class TaskManager:
         print ('[2] Edit Task')
         print ('[3] Delete Task')
         print ('[4] View Tasks')
-        print ('[5] Sort Tasks by Priority [Not yet available]')
+        print ('[5] Sort Tasks by Priority')
         print ('[6] Get Overdue Tasks [Not yet available]')
         print ('---------------------------------------')
 
