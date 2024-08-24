@@ -1,12 +1,13 @@
 # task.py
 
 class Task:
-    def __init__ (self, task_name, description, due_date, priority_level, completion_status):
+    def __init__ (self, task_name, description, due_date, priority_level, completion_status=False):
         '''
             Initializes the Task instance
             
             - The format for due date is MM-DD-YYYYss
             - Priority level can only be high, medium, low
+            - Completion status is False by default
         '''
         self.__valid_priority_levels = ['low', 'medium', 'high']
         self.__task_name = task_name
@@ -14,6 +15,7 @@ class Task:
         self.__due_date = due_date
         self.__priority_level = priority_level.lower()
         self.__completion_status = completion_status
+        self.__archieve = []
         
     def set_description (self, new_description):
         '''
@@ -80,4 +82,37 @@ class Task:
             "Priority Level": self.__priority_level,
             "Completion Status": self.__completion_status
         }
-        
+    
+    def mark_as_completed(self):
+        '''
+            Marks the task as completed and stores it in the archieve
+        '''
+        if not self.__completion_status:
+            self.__completion_status = True
+            self.archieve_task()
+            print(f'Task "{self.__task_name}" has been marked as completed.')
+        else:
+            print(f'Task "{self.__task_name}" is already completed.')
+
+    def archive_task(self):
+        '''
+            Archives the completed task for reference
+        '''
+        if self.__completion_status:
+            task_details = self.get_task_details()
+            self.__archieve.append(task_details)
+            print(f'Task "{self.__task_name}" has been archived.')
+
+    def view_archieve(self):
+        '''
+            View all archived tasks
+        '''
+        if self.__archieve:
+            print("Archived Tasks:")
+            for idx, task in enumerate(self.__archieve, start=1):
+                print(f"\nTask {idx}:")
+                for key, value in task.items():
+                    print(f"{key}: {value}")
+
+        else:
+            print("No tasks have been archived yet")
