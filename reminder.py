@@ -1,15 +1,32 @@
+# reminder.py
+
 from datetime import datetime, timedelta
 
 class Reminder:
-    def __init__(self, due_date):
-        # mm-dd-yyyy HH:MM (24-hour format)
-        self.__due_date = datetime.strptime(due_date, "%m-%d-%Y %H:%M")
+    def __init__(self, task):
+        # Extract due date and other task details
+        self.task = task
+        self.__due_date = datetime.strptime(task.get_task_details()['Due Date'], "%m-%d-%Y")
         self.__reminder_sent = False
         self.__overdue_reminder = False
         self.__upcoming_task_reminder = False
+        self.time_until_deadline = None
+        self.notifications = None
+
+    def generateReminder(self):
+        self.check_due_date()
+        self.prompt_overdue_date()
+        self.prompt_upcoming_tasks()
+
+    def displayNotification(self):
+        if self.notifications:
+            print(self.notifications)
+        else:
+            print("No notifications at the moment.")
 
     def check_due_date(self):
         current_time = datetime.now()
+        self.time_until_deadline = self.__due_date - current_time
         if current_time >= self.__due_date and not self.__reminder_sent:
             self.send_reminder()
             self.__reminder_sent = True
@@ -28,19 +45,22 @@ class Reminder:
             self.__upcoming_task_reminder = True
 
     def send_reminder(self):
-        #Reminder message#
+        # Reminder message
+        self.notifications = f"Reminder: The task '{self.task.get_task_details()['Task Name']}' is due on {self.__due_date.strftime('%m-%d-%Y')}!"
         print("-------------------------")
-        print(f"Reminder: The task is due on {self.__due_date.strftime('%m-%d-%Y %H:%M')}!")
+        print(self.notifications)
         print("-------------------------")
 
     def send_overdue_reminder(self):
-        #Sends reminder when task is overdue#
+        # Sends reminder when task is overdue
+        self.notifications = f"Reminder: The task '{self.task.get_task_details()['Task Name']}' is overdue! Please check your task manager."
         print("-------------------------")
-        print("Reminder: You have an overdue task! Please check your task manager.")
+        print(self.notifications)
         print("-------------------------")
 
     def send_upcoming_tasks(self):
-        #Sends upcoming tasks#
+        # Sends upcoming task reminder
+        self.notifications = f"Reminder: The task '{self.task.get_task_details()['Task Name']}' is due soon! Please check your task manager."
         print("-------------------------")
-        print("Wala pa :P")
+        print(self.notifications)
         print("-------------------------")
