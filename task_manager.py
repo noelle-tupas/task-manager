@@ -72,7 +72,28 @@ class TaskManager:
         
     # To be implemented
     def sort_tasks_by_priority (self):
-        print ('View sorted tasks by priority -- not yet implemented')
+        if self.__tasks:
+            for priority_key in self.__tasks:
+                p = priority_key.get_task_details()
+                if p["Priority Level"] == 'high':
+                    for key, value in p.items():
+                        print(f"> {key}: {value}", end='\n')
+                    print('---------------------------------------')
+            for priority_key in self.__tasks:
+                p = priority_key.get_task_details()
+                if p["Priority Level"] == 'medium':
+                    for key, value in p.items():
+                        print(f"> {key}: {value}", end='\n')
+                    print('---------------------------------------')
+
+            for priority_key in self.__tasks:
+                p = priority_key.get_task_details()
+                if p["Priority Level"] == 'low':
+                    for key, value in p.items():
+                        print(f"> {key}: {value}", end='\n')
+                    print('---------------------------------------')
+        else:
+            print('No tasks available.')
         
     # To be implemented
     def get_overdue_tasks (self):
@@ -85,7 +106,7 @@ class TaskManager:
         print ('[2] Edit Task')
         print ('[3] Delete Task')
         print ('[4] View Tasks')
-        print ('[5] Sort Tasks by Priority [Not yet available]')
+        print ('[5] Sort Tasks by Priority')
         print ('[6] Get Overdue Tasks [Not yet available]')
         print ('-------------------------')
 
