@@ -101,24 +101,18 @@ class TaskManager:
         if self.__tasks or self.__completed_tasks:
             print ('\n[***** ONGOING TASKS *****]')
             for task in self.__tasks:
-                task_details = task.get_task_details()
+                new_task = task.get_task_details()
                 print('>  Task ' + str(self.__tasks.index(task) + 1) + ':')
-                print('>  Task name: ' + task_details["Task Name"] + '')
-                print('>  Description: ' + task_details["Description"] + '')
-                print('>  Due date: ' + task_details["Due Date"] + '')
-                print('>  Priority level: ' + task_details["Priority Level"] + '')
-                print('>  Completion status: ' + task_details["Completion Status"] + '')
-                print ('---------------------------------------')
+                for key, value in new_task.items():
+                    print(f">  {key}: {value}", end='\n')
+                print('---------------------------------------')
                 
             print ('\n[***** COMPLETED TASKS *****]')
-            for task in self.__completed_tasks:
-                task_details = task.get_task_details()
+            for task in self.__tasks:
+                new_task = task.get_task_details()
                 print('>  Task ' + str(self.__tasks.index(task) + 1) + ':')
-                print('>  Task name: ' + task_details["Task Name"] + '')
-                print('>  Description: ' + task_details["Description"] + '')
-                print('>  Due date: ' + task_details["Due Date"] + '')
-                print('>  Priority level: ' + task_details["Priority Level"] + '')
-                print('>  Completion status: ' + task_details["Completion Status"] + '')
+                for key, value in new_task.items():
+                    print(f">  {key}: {value}", end='\n')
                 print ('---------------------------------------')
         
         else:
@@ -153,13 +147,11 @@ class TaskManager:
         
         print ('\n[***** SORTED TASKS *****]')
         for task in to_be_sorted:
-            task_details = task.get_task_details()
-            print('>  Task name: ' + task_details["Task Name"] + '')
-            print('>  Description: ' + task_details["Description"] + '')
-            print('>  Due date: ' + task_details["Due Date"] + '')
-            print('>  Priority level: ' + task_details["Priority Level"] + '')
-            print('>  Completion status: ' + task_details["Completion Status"] + '')
-            print ('---------------------------------------')
+            new_task = task.get_task_details()
+                print('>  Task ' + str(self.__tasks.index(task) + 1) + ':')
+                for key, value in new_task.items():
+                    print(f">  {key}: {value}", end='\n')
+                print('---------------------------------------')
             
         
     # To be implemented
