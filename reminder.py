@@ -64,3 +64,8 @@ class Reminder:
         print("-------------------------")
         print(self.notifications)
         print("-------------------------")
+    def get_task(self):
+        '''
+            Return the task object
+        '''
+        return self.task
