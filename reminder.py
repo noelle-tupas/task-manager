@@ -64,8 +64,9 @@ class Reminder:
         print("-------------------------")
         print(self.notifications)
         print("-------------------------")
-    def get_task(self):
+        
+    def get_task_details(self):
         '''
-            Return the task object
+            Returns the original task object
         '''
         return self.task
