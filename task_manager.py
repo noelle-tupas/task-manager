@@ -1,13 +1,12 @@
-# task_manager.py
-
-from task import Task
+#from task import Task
+#from reminder import Reminder
 
 class TaskManager:
     def __init__ (self):
         '''
             Initializes the TaskManager instance
             
-            - The format for due date is MM-DD-YYYYss
+            - The format for due date is MM-DD-YYYY
             - Priority level can only be high, medium, low
         '''
         self.__tasks = []
@@ -23,16 +22,19 @@ class TaskManager:
         priority_level = input ('Priority level (low, medium, high): ')
         completion_status = input ('Completion level? (%): ')
         
-        new_task = Task (
-            task_name,
-            description,
-            due_date,
-            priority_level,
-            completion_status
-        )
+        # Ask the user if they want a reminder
+        reminder_choice = input('Would you like a reminder? (yes/no): ').strip().lower()
+
+        if reminder_choice == 'yes':
+            # Create a Reminder object with the provided details
+            new_task = Reminder(Task(task_name, description, due_date, priority_level, completion_status))
+        else:
+            # Create a Task object with the provided details
+            new_task = Task(task_name, description, due_date, priority_level, completion_status)
         
         self.__tasks.append(new_task)
-        
+        print("Task added successfully!")
+
     def edit_task (self):
         '''
             Allows the user to edit an existing task
@@ -108,9 +110,9 @@ class TaskManager:
                 print('---------------------------------------')
                 
             print ('\n[***** COMPLETED TASKS *****]')
-            for task in self.__tasks:
+            for task in self.__completed_tasks:
                 new_task = task.get_task_details()
-                print('>  Task ' + str(self.__tasks.index(task) + 1) + ':')
+                print('>  Task ' + str(self.__completed_tasks.index(task) + 1) + ':')
                 for key, value in new_task.items():
                     print(f">  {key}: {value}", end='\n')
                 print ('---------------------------------------')
@@ -148,10 +150,10 @@ class TaskManager:
         print ('\n[***** SORTED TASKS *****]')
         for task in to_be_sorted:
             new_task = task.get_task_details()
-                print('>  Task ' + str(self.__tasks.index(task) + 1) + ':')
-                for key, value in new_task.items():
-                    print(f">  {key}: {value}", end='\n')
-                print('---------------------------------------')
+            print('>  Task ' + str(self.__tasks.index(task) + 1) + ':')
+            for key, value in new_task.items():
+                print(f">  {key}: {value}", end='\n')
+            print('---------------------------------------')
             
         
     # To be implemented
@@ -195,4 +197,32 @@ while True:
         tm.get_overdue_tasks()
     else:
         print ('Invalid input. Please choose [number] from the menu.')
-        
+    def view_tasks(self):
+        '''
+            Allows the user to view all tasks
+        '''
+        if self.__tasks or self.__completed_tasks:
+            print('\n[***** ONGOING TASKS *****]')
+            for task in self.__tasks:
+                if isinstance(task, Reminder):
+                    task = task.get_task()  # Get the actual Task object
+
+                new_task = task.get_task_details()
+                print('>  Task ' + str(self.__tasks.index(task) + 1) + ':')
+                for key, value in new_task.items():
+                    print(f">  {key}: {value}", end='\n')
+                print('---------------------------------------')
+
+            print('\n[***** COMPLETED TASKS *****]')
+            for task in self.__completed_tasks:
+                if isinstance(task, Reminder):
+                    task = task.get_task()  # Get the actual Task object
+
+                new_task = task.get_task_details()
+                print('>  Task ' + str(self.__completed_tasks.index(task) + 1) + ':')
+                for key, value in new_task.items():
+                    print(f">  {key}: {value}", end='\n')
+                print('---------------------------------------')
+
+        else:
+            print('No available tasks.')
