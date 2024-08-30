@@ -42,12 +42,12 @@ class Task:
         '''
         return self.__valid_priority_levels
     
-    def validate_priority_levels (self, priority_level):
+    def validate_priority_level  (self, priority_level):
         '''
             Validates the new priority entered by the user and returns
             either True or False
         '''
-        valid_priority_levels = self.get_valid_priority_levels()
+        valid_priority_levels = self.get_valid_priority_level()
 
         if str(priority_level) in valid_priority_levels:
             return True
