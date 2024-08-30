@@ -12,63 +12,70 @@ class TaskManager:
         self.__tasks = []
         self.__completed_tasks = []
         
-    def add_task (self):
-        '''
-            Allows the user to add a task to the Task Manager
-        '''
-        task_name = input ('Task name: ')
-        description = input ('Description: ')
-        due_date = input ('Due date (MM-DD-YYYY): ')
-        priority_level = input ('Priority level (low, medium, high): ')
-        completion_status = input ('Completion level? (%): ')
-        
-        # Ask the user if they want a reminder
-        reminder_choice = input('Would you like a reminder? (yes/no): ').strip().lower()
+    #!/usr/bin/python
+# -*- coding: utf-8 -*-
+
+
+    def add_task(self):
+        """
+        Prompts the user for task details, including an optional reminder,
+        and adds the task to the task list.
+        """
+
+        task_name = input('Task name: ')
+        description = input('Description: ')
+
+        due_date = self.__get_valid_date('Due date (MM-DD-YYYY): ')
+
+        priority_level = \
+            self.__get_valid_priority('Priority level (low, medium, high): '
+                                  )
+
+        completion_status = \
+            self.__get_valid_percentage('Completion level (%): ')
+
+        reminder_choice = input('Would you like a reminder? (yes/no): '
+                                ).strip().lower()
 
         if reminder_choice == 'yes':
-            # Create a Reminder object with the provided details
-            new_task = Reminder(Task(task_name, description, due_date, priority_level, completion_status))
+            new_task = Reminder(Task(task_name, description, due_date,
+                                priority_level, completion_status))
         else:
-            # Create a Task object with the provided details
-            new_task = Task(task_name, description, due_date, priority_level, completion_status)
-        
-        self.__tasks.append(new_task)
-        print("Task added successfully!")
+            new_task = Task(task_name, description, due_date,
+                            priority_level, completion_status)
 
-    def edit_task (self):
-        '''
-            Allows the user to edit an existing task
-        '''
-        index = int(input ('Enter the number of the task you wish to edit: ')) - 1
-        
-        if not index >= 0 and index < len(self.__tasks):
-            '''
-                Checks if the index is valid. If not, it will
-                end the execution of the method, else it will
-                continue with the rest of the method
-            '''
-            print ('Task does not exist. Try again.')
-            return
-        
+        self.__tasks.append(new_task)
+        print 'Task added successfully!'
+
+
+    def edit_task(self):
+        """
+        Allows the user to edit an existing task by selecting it from the task list.
+        If the task is 100% completed, it is moved to the completed tasks list.
+        """
+
+        index = int(input('Enter the number of the task you wish to edit: '
+                )) - 1
+
+        if index < 0 or index >= len(self.__tasks):
+        print 'Task does not exist. Try again.'
+        return
+
+
         task = self.__tasks[index]
-        
-        description = input ("New description: ")
-        priority_level = input("New priority level (low, medium, high): ")
-        completion_status = input("New completion status (%): ")
-        
-        task.set_description(description)
-        task.set_priority(priority_level)
-        task.set_completion_status(completion_status)
-        
-        print ('** Task was edited successfully. **')
-        
-        '''
-            Check if the task is already completed (100%). If yes, move it to
-            the completed tasks list
-        '''
+
+        task.set_description(input('New description: '))
+        task.set_priority(self.__get_valid_priority('New priority level (low, medium, high): '
+                          ))
+        task.set_completion_status(self.__get_valid_percentage('New completion status (%): '
+                                   ))
+
+        print '** Task was edited successfully. **'
+
         if task.get_completion_status() == '100%':
             self.__tasks.remove(task)
             self.__completed_tasks.append(task)
+
             
     def delete_task (self):
         '''
@@ -197,32 +204,3 @@ while True:
         tm.get_overdue_tasks()
     else:
         print ('Invalid input. Please choose [number] from the menu.')
-    def view_tasks(self):
-        '''
-            Allows the user to view all tasks
-        '''
-        if self.__tasks or self.__completed_tasks:
-            print('\n[***** ONGOING TASKS *****]')
-            for task in self.__tasks:
-                if isinstance(task, Reminder):
-                    task = task.get_task()  # Get the actual Task object
-
-                new_task = task.get_task_details()
-                print('>  Task ' + str(self.__tasks.index(task) + 1) + ':')
-                for key, value in new_task.items():
-                    print(f">  {key}: {value}", end='\n')
-                print('---------------------------------------')
-
-            print('\n[***** COMPLETED TASKS *****]')
-            for task in self.__completed_tasks:
-                if isinstance(task, Reminder):
-                    task = task.get_task()  # Get the actual Task object
-
-                new_task = task.get_task_details()
-                print('>  Task ' + str(self.__completed_tasks.index(task) + 1) + ':')
-                for key, value in new_task.items():
-                    print(f">  {key}: {value}", end='\n')
-                print('---------------------------------------')
-
-        else:
-            print('No available tasks.')
