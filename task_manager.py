@@ -136,10 +136,43 @@ class TaskManager:
         
         task = self.__tasks[index]
         
-        description = input ("New description: ")
-        priority_level = input("New priority level (low, medium, high): ")
-        completion_status = input("New completion status (%): ")
+        while True: 
+            description = input ('Enter new task description: ').strip()
+            
+            if description:
+                break
+            else:
+                print ('Invalid input, task name cannot be empty.')
+                
+        while True:
+            priority_level = input ('Enter new priority level (low, medium, high): ').strip().lower()
+            
+            if priority_level:
+                if priority_level in ['low', 'medium', 'high']:
+                    break
+                else:
+                    print ('Invalid input, priority level can only be low, medium, or high.')
+            else:
+                print ('Invalid input, priority level cannot be empty.')
         
+        while True:        
+            completion_status = input ('Enter new completion status (%): ')
+            if completion_status:
+                if '%' in completion_status:
+                    completion_status_for_validation = int(completion_status.replace('%', ''))
+                    if completion_status_for_validation >= 0 and completion_status_for_validation <= 100:
+                        break
+                    else:
+                        print ('Invalid input, completion status must be only be 0-100%')
+                else:
+                    print ('Invalid input. Completion status must be suffixed by % (ex. 90%, 30%)')
+            else:
+                print ('Invalid input. Completion status cannot be empty.')
+        
+        '''
+            Utilize the task setters to update
+            the values of these task attributes
+        '''
         task.set_description(description)
         task.set_priority(priority_level)
         task.set_completion_status(completion_status)
