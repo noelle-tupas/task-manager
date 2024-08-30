@@ -1,21 +1,17 @@
 # task.py
 
+from datetime import datetime
+
 class Task:
-    def __init__ (self, task_name, description, due_date, priority_level, completion_status=False):
-        '''
-            Initializes the Task instance
-            
-            - The format for due date is MM-DD-YYYYss
-            - Priority level can only be high, medium, low
-            - Completion status is False by default
-        '''
+    def __init__ (self, task_name, description, due_date, priority_level, completion_status, type):
+
         self.__valid_priority_levels = ['low', 'medium', 'high']
         self.__task_name = task_name
         self.__description = description
         self.__due_date = due_date
         self.__priority_level = priority_level.lower()
         self.__completion_status = completion_status
-        self.__archieve = []
+        self.__type = type
         
     def set_description (self, new_description):
         '''
@@ -29,7 +25,7 @@ class Task:
             It also calls check_if_valid_priority_level to verify if the priority
             level is either low, medium, or high. Else, it will print an error
         '''
-        if self.check_if_valid_priority_level(new_priority_level):
+        if self.validate_priority_levels(new_priority_level):
             self.__priority_level = new_priority_level
         else:
             print ('Error: Failed to update priority level. Invalid value provided.')
@@ -46,7 +42,7 @@ class Task:
         '''
         return self.__valid_priority_levels
     
-    def check_if_valid_priority_level (self, priority_level):
+    def validate_priority_levels (self, priority_level):
         '''
             Validates the new priority entered by the user and returns
             either True or False
@@ -70,6 +66,12 @@ class Task:
         '''
         return self.__completion_status
     
+    def get_due_date (self):
+        '''
+            Retrieves the due date of the task
+        '''
+        return self.__due_date
+    
     def get_task_details (self):
         '''
             Returns an object containing all relevant information
@@ -82,37 +84,9 @@ class Task:
             "Priority Level": self.__priority_level,
             "Completion Status": self.__completion_status
         }
-    
-    def mark_as_completed(self):
+        
+    def get_type (self):
         '''
-            Marks the task as completed and stores it in the archieve
+            Returns the task type: Reminder or Task
         '''
-        if not self.__completion_status:
-            self.__completion_status = True
-            self.archieve_task()
-            print(f'Task "{self.__task_name}" has been marked as completed.')
-        else:
-            print(f'Task "{self.__task_name}" is already completed.')
-
-    def archive_task(self):
-        '''
-            Archives the completed task for reference
-        '''
-        if self.__completion_status:
-            task_details = self.get_task_details()
-            self.__archieve.append(task_details)
-            print(f'Task "{self.__task_name}" has been archived.')
-
-    def view_archieve(self):
-        '''
-            View all archived tasks
-        '''
-        if self.__archieve:
-            print("Archived Tasks:")
-            for idx, task in enumerate(self.__archieve, start=1):
-                print(f"\nTask {idx}:")
-                for key, value in task.items():
-                    print(f"{key}: {value}")
-
-        else:
-            print("No tasks have been archived yet")
+        return self.__type
