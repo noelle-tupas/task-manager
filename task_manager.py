@@ -177,7 +177,7 @@ class TaskManager:
         task.set_priority(priority_level)
         task.set_completion_status(completion_status)
         
-        print ('** Task was edited successfully. **')
+        print ('*** Task was edited successfully! ***')
         
         '''
             Check if the task is already completed (100%). If yes, move it to

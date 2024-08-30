@@ -12,6 +12,7 @@ class Task:
         self.__completion_status = completion_status
         self.__type = type
         
+    # Setters
     def set_description (self, new_description):
         '''
             Updates the task's description with the newly provided description
@@ -23,18 +24,19 @@ class Task:
             Updates the value of the task's priority level
         '''
         self.__priority_level = new_priority_level
-            
-    def get_priority (self):
-        '''
-            Retrieves the priority level of a task
-        '''
-        return self.__priority_level
     
     def set_completion_status (self, completion_status):
         '''
             Updates the completion status of a task
         '''
         self.__completion_status = completion_status
+        
+    # Getters
+    def get_priority (self):
+        '''
+            Retrieves the priority level of a task
+        '''
+        return self.__priority_level
         
     def get_completion_status (self):
         '''
@@ -47,6 +49,12 @@ class Task:
             Retrieves the due date of the task
         '''
         return self.__due_date
+
+    def get_type (self):
+        '''
+            Returns the task type: Reminder or Task
+        '''
+        return self.__type
     
     def get_task_details (self):
         '''
@@ -60,9 +68,3 @@ class Task:
             "Priority Level": self.__priority_level,
             "Completion Status": self.__completion_status
         }
-        
-    def get_type (self):
-        '''
-            Returns the task type: Reminder or Task
-        '''
-        return self.__type
