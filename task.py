@@ -5,11 +5,10 @@ from datetime import datetime
 class Task:
     def __init__ (self, task_name, description, due_date, priority_level, completion_status, type):
 
-        self.__valid_priority_levels = ['low', 'medium', 'high']
         self.__task_name = task_name
         self.__description = description
         self.__due_date = due_date
-        self.__priority_level = priority_level.lower()
+        self.__priority_level = priority_level
         self.__completion_status = completion_status
         self.__type = type
         
@@ -21,38 +20,15 @@ class Task:
         
     def set_priority (self, new_priority_level):
         '''
-            Updates the priority of a task with the newly provided priority.
-            It also calls check_if_valid_priority_level to verify if the priority
-            level is either low, medium, or high. Else, it will print an error
+            Updates the value of the task's priority level
         '''
-        if self.validate_priority_levels(new_priority_level):
-            self.__priority_level = new_priority_level
-        else:
-            print ('Error: Failed to update priority level. Invalid value provided.')
+        self.__priority_level = new_priority_level
             
     def get_priority (self):
         '''
             Retrieves the priority level of a task
         '''
         return self.__priority_level
-        
-    def get_valid_priority_levels (self):
-        '''
-            Retrieves all valid priority levels defined
-        '''
-        return self.__valid_priority_levels
-    
-    def validate_priority_level  (self, priority_level):
-        '''
-            Validates the new priority entered by the user and returns
-            either True or False
-        '''
-        valid_priority_levels = self.get_valid_priority_level()
-
-        if str(priority_level) in valid_priority_levels:
-            return True
-        
-        return False
     
     def set_completion_status (self, completion_status):
         '''
