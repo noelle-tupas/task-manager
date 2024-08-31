@@ -53,6 +53,7 @@ class TaskManager:
             if due_date:
                 if datetime.strptime (due_date, '%m-%d-%Y'):
                     if datetime.strptime (due_date, '%m-%d-%Y') > datetime.now():
+                        due_date = datetime.strptime(due_date, '%m-%d-%Y')
                         break
                     else:
                         print ('Invalid input, deadline cannot precede current date.')
